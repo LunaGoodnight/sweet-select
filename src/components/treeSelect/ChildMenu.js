@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import { Add, Remove } from '@material-ui/icons';
+// import { Add, Remove } from '@material-ui/icons';
 import { CheckBox, ChildMenuName, CollapseIcon } from './styleConfig';
 import { ChildMenuItem } from './ChildMenuItem';
 
@@ -21,7 +21,7 @@ export const ChildMenu = ({ item, hasAllSub, hasSub, handleSelectSub, selectChil
     <ChildWrapper>
       <ChildMenuName>
         <CollapseIcon onClick={() => setIsCollapse((prevState) => !prevState)}>
-          {isCollapse ? <Remove /> : <Add />}
+          {isCollapse ? "-" : "+"}
         </CollapseIcon>
         <Label>
           <CheckBox

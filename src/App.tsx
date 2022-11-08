@@ -1,23 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import GlobalStyle from './styles/globalStyle';
+import {TreeSelector} from "./components/treeSelect/TreeSelector";
+import {useSweetTree} from "./components/treeSelect/useSweetTree";
+import {treeData} from "./data/treeData";
+import styled from "styled-components";
+export const FilterBlock = styled.div`
+
+  width: 13rem;
+`
 function App() {
+  const treeSelect = useSweetTree({ list: treeData })
   return (
     <div className="App">
+      <GlobalStyle />
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <FilterBlock>
+
+          <TreeSelector {...treeSelect} />
+        </FilterBlock>
       </header>
     </div>
   );
