@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
-import { useClickOutside } from '../useClickOutside';
+import { useCallback, useRef, useState } from "react";
+import { useClickOutside } from "../useClickOutside";
 
 export function useSweetTree({
   list,
@@ -8,7 +8,7 @@ export function useSweetTree({
   setWhiteLabelList = null,
   selectSubsidiary = null,
   selectWhiteLabel = null,
-  placeholder = '',
+  placeholder = "",
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -19,11 +19,16 @@ export function useSweetTree({
 
   const checkAllSelected = () => {
     if (!list) return false;
-    const selected = JSON.parse(JSON.stringify(selectedItems.slice().sort((a, b) => a.ID - b.ID)));
-    const origin = JSON.parse(JSON.stringify(list.slice().sort((a, b) => a.ID - b.ID)));
+    const selected = JSON.parse(
+      JSON.stringify(selectedItems.slice().sort((a, b) => a.ID - b.ID))
+    );
+    const origin = JSON.parse(
+      JSON.stringify(list.slice().sort((a, b) => a.ID - b.ID))
+    );
     if (selected.length !== origin.length) return false;
     return selected.every(
-      (element, index) => element.Subsidiaries.length === origin[index].Subsidiaries.length
+      (element, index) =>
+        element.Subsidiaries.length === origin[index].Subsidiaries.length
     );
   };
   const toggleChildMenu = (item) => {
@@ -46,10 +51,10 @@ export function useSweetTree({
         ? setSelectedItems(arr.filter((ele) => ele.Name !== item.Name))
         : setSelectedItems(newArr);
 
-      // 1. if has select all and child, remove this whiteLabel
+      // 1. if it has selected all and child, remove this whiteLabel
       // 2. false, add all in this whiteLabel (from this index)
     } else {
-      // 3. didnt select this white label yet, all in
+      // 3. didn't select this white label yet, all in
       setSelectedItems((prev) => [...prev, item]);
     }
   };
@@ -69,7 +74,10 @@ export function useSweetTree({
     const ind = selectedItems.findIndex((ele) => ele.Name === item.Name);
     const originInd = list.findIndex((ele) => ele.Name === item.Name);
     if (ind !== -1) {
-      return selectedItems[ind].Subsidiaries.length === list[originInd].Subsidiaries.length;
+      return (
+        selectedItems[ind].Subsidiaries.length ===
+        list[originInd].Subsidiaries.length
+      );
     }
     return false;
   };
@@ -84,9 +92,11 @@ export function useSweetTree({
     if (parentIndex !== -1) {
       const obj = selectedItems.find((ele) => ele.Name === parent);
       const newObj = JSON.parse(JSON.stringify(obj));
-      if (newObj.Subsidiaries.find((e) => e.OperatorId === subsidiary.OperatorId)) {
+      if (
+        newObj.Subsidiaries.find((e) => e.OperatorId === subsidiary.OperatorId)
+      ) {
         // unselect this sub
-        newObj['Subsidiaries'] = newObj.Subsidiaries.filter(
+        newObj["Subsidiaries"] = newObj.Subsidiaries.filter(
           (el) => el.OperatorId !== subsidiary.OperatorId
         );
 
@@ -101,8 +111,8 @@ export function useSweetTree({
       } else {
         // add this sub
         const newSelectedList = selectedItems.slice();
-        const arr = newObj['Subsidiaries'].slice();
-        newObj['Subsidiaries'] = arr.concat(subsidiary);
+        const arr = newObj["Subsidiaries"].slice();
+        newObj["Subsidiaries"] = arr.concat(subsidiary);
         newSelectedList[parentIndex] = newObj;
         handleSetList(newSelectedList);
       }
@@ -110,7 +120,7 @@ export function useSweetTree({
       // didn't select parent yet
       const obj = list.find((ele) => ele.Name === parent);
       const newObj = JSON.parse(JSON.stringify(obj));
-      newObj['Subsidiaries'] = [{ ...subsidiary }];
+      newObj["Subsidiaries"] = [{ ...subsidiary }];
       if (selectSubsidiary) {
         selectSubsidiary(newObj);
       } else {
@@ -121,7 +131,9 @@ export function useSweetTree({
   const hasSub = ({ parent, name }) => {
     const ind = selectedItems.findIndex((ele) => ele.Name === parent);
     if (ind !== -1) {
-      return selectedItems[ind].Subsidiaries.find((sub) => sub.OperatorId === name);
+      return selectedItems[ind].Subsidiaries.find(
+        (sub) => sub.OperatorId === name
+      );
     }
     return false;
   };
